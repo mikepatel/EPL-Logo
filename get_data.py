@@ -14,12 +14,17 @@ import os
 import re
 import urllib.request
 from bs4 import BeautifulSoup
+from selenium import webdriver
 
 
 ################################################################################
 # Main
 if __name__ == "__main__":
     # use selenium to load dynamic data
+    # webdriver.Chrome(path to chromedriver)
+    # .get(url)
+
+    # soup = BeautifulSoup(driver.page_source, 'html.parser')
 
     with urllib.request.urlopen("https://thefootballcrestindex.com/blogs/premier-league-clubs") as response:
         page = response.read()
