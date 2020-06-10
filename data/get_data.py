@@ -13,6 +13,7 @@ File description:
 import os
 import re
 from time import sleep
+import requests
 import urllib.request
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -54,9 +55,34 @@ if __name__ == "__main__":
 
         #sleep(1)
 
+    # use href text and then parse for club names
+
     print(f'Number of images: {len(images)}')
     for i in images:
         print(i)
+        _, image_file_name = str(i).rsplit("/", 1)
+        image_file_name, _ = str(image_file_name).rsplit("_compact", 1)
+        if "H_" in image_file_name:
+            _, image_file_name = str(image_file_name).rsplit("H_", 1)
+        image_file_name = re.sub(
+            "[0-9]",
+            "",
+            str(image_file_name)
+        )
+        print(image_file_name)
+        print()
+        """
+        with open(image_file_name, "wb") as f:
+            response = requests.get(i, stream=True)
+            if not response.ok:
+                print(response)
+
+            for block in response.iter_content(1024):
+                if not block:
+                    break
+
+                f.write(block)
+        """
     quit()
 
     """
