@@ -30,6 +30,8 @@ if __name__ == "__main__":
     # ETL = Extraction, Transformation, Load
     # use ImageDataGenerator to augment dataset
 
+    # number of classes = number of clubs
+
     # ----- MODEL ----- #
 
     # ----- TRAINING ----- #
