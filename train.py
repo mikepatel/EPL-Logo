@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 
 from parameters import *
+from model import build_cnn
 
 
 ################################################################################
@@ -107,8 +108,14 @@ if __name__ == "__main__":
 
     ## test
 
-
-
     # ----- MODEL ----- #
+    m = build_cnn(num_classes=num_classes)
+    m.compile(
+        loss=tf.keras.losses.sparse_categorical_crossentropy,
+        optimizer=tf.keras.optimizers.Adam(),
+        metrics=["accuracy"]
+    )
+
+    m.summary()
 
     # ----- TRAINING ----- #
