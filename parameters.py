@@ -15,6 +15,8 @@ File description:
 # 20x20
 # 10x10
 # 5x5
+IMAGE_WIDTH = 160
+IMAGE_HEIGHT = 160
 
 NUM_EPOCHS = 1
 BATCH_SIZE = 16
