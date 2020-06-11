@@ -69,18 +69,19 @@ if __name__ == "__main__":
     print(f'Number of images: {len(image_urls)}')
 
     driver.close()
-    quit()
 
-    """
-    with open(image_file_name, "wb") as f:
-        response = requests.get(i, stream=True)
-        if not response.ok:
-            print(response)
+    # save images
+    for i in range(len(names)):
+        image_filename = names[i] + ".jpg"
 
-        for block in response.iter_content(1024):
-            if not block:
-                break
+        with open(image_filename, "wb") as f:
+            response = requests.get(image_urls[i], stream=True)
 
-            f.write(block)
-    """
+            if not response.ok:
+                print(response)
 
+            for block in response.iter_content(1024):
+                if not block:
+                    break
+
+                f.write(block)
