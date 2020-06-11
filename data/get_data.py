@@ -70,18 +70,29 @@ if __name__ == "__main__":
 
     driver.close()
 
-    # save images
-    for i in range(len(names)):
-        image_filename = names[i] + ".jpg"
+    # make directories named after clubs for Training and Test
+    # as club names = labels
+    data_dir = ["Training", "Test"]
+    for dataset in data_dir:
+        for i in range(len(names)):
+            # create directory in Training/Test
+            dir_name = dataset + "\\" + names[i]
+            dir_path = os.path.join(os.getcwd(), dir_name)
+            if not os.path.exists(dir_path):
+                os.makedirs(dir_path)
 
-        with open(image_filename, "wb") as f:
-            response = requests.get(image_urls[i], stream=True)
+            # save image in directory
+            image_filename = names[i] + ".jpg"
+            image_path = os.path.join(dir_path, image_filename)
 
-            if not response.ok:
-                print(response)
+            with open(image_path, "wb") as f:
+                response = requests.get(image_urls[i], stream=True)
 
-            for block in response.iter_content(1024):
-                if not block:
-                    break
+                if not response.ok:
+                    print(response)
 
-                f.write(block)
+                for block in response.iter_content(1024):
+                    if not block:
+                        break
+
+                    f.write(block)
