@@ -12,10 +12,24 @@ File description:
 # Import
 import os
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 import tensorflow as tf
 
 from parameters import *
+
+
+################################################################################
+# plot images in a 1x5 grid
+def plot_images(images_arr):
+    fig, axes = plt.subplots(1, 5, figsize=(20, 20))
+    axes = axes.flatten()
+    for img, ax in zip(images_arr, axes):
+        ax.imshow(img)
+        ax.axis('off')
+    plt.tight_layout()
+    plt.show()
+
 
 ################################################################################
 # Main
@@ -31,6 +45,17 @@ if __name__ == "__main__":
     # ----- ETL ----- #
     # ETL = Extraction, Transformation, Load
     # use ImageDataGenerator to augment dataset
+
+    # get class labels
+    # number of classes = number of clubs
+    labels = []
+    for directories in os.listdir(os.path.join(os.getcwd(), "data\\Train")):
+        labels.append(directories)
+
+    num_classes = len(labels)
+    print(f'Number of classes (aka clubs): {num_classes}')
+
+    ## training
     # build image generators
     train_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
         rotation_range=30,  # degrees
@@ -50,12 +75,31 @@ if __name__ == "__main__":
         directory=os.path.join(os.getcwd(), "data\\Train"),
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
         class_mode="categorical",  # more than 2 classes
+        classes=labels,
         batch_size=BATCH_SIZE,
-        shuffle=True,
-        save_to_dir=os.path.join(os.getcwd(), "data\\x")  # temporary for visualising
+        shuffle=True
+        #save_to_dir=os.path.join(os.getcwd(), "data\\x")  # temporary for visualising
     )
 
-    # number of classes = number of clubs
+    #next(train_data_gen)
+
+    ## validation
+    val_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
+        rescale=1./255
+    )
+
+    val_data_gen = val_image_generator.flow_from_directory(
+        directory=os.path.join(os.getcwd(), "data\\Validation"),
+        target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
+        class_mode="categorical",  # more than 2 classes
+        classes=labels,
+        batch_size=BATCH_SIZE,
+        shuffle=True
+    )
+
+    ## test
+
+
 
     # ----- MODEL ----- #
 
