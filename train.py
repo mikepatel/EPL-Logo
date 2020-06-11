@@ -20,6 +20,18 @@ from parameters import *
 
 
 ################################################################################
+# get class labels
+# return: labels, number of labels
+def get_labels():
+    labels = []
+    for directories in os.listdir(os.path.join(os.getcwd(), "data\\Train")):
+        labels.append(directories)
+
+    num_labels = len(labels)
+
+    return labels, num_labels
+
+
 # plot images in a 1x5 grid
 def plot_images(images_arr):
     fig, axes = plt.subplots(1, 5, figsize=(20, 20))
@@ -48,11 +60,7 @@ if __name__ == "__main__":
 
     # get class labels
     # number of classes = number of clubs
-    labels = []
-    for directories in os.listdir(os.path.join(os.getcwd(), "data\\Train")):
-        labels.append(directories)
-
-    num_classes = len(labels)
+    classes, num_classes = get_labels()
     print(f'Number of classes (aka clubs): {num_classes}')
 
     ## training
@@ -75,7 +83,7 @@ if __name__ == "__main__":
         directory=os.path.join(os.getcwd(), "data\\Train"),
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
         class_mode="categorical",  # more than 2 classes
-        classes=labels,
+        classes=classes,
         batch_size=BATCH_SIZE,
         shuffle=True
         #save_to_dir=os.path.join(os.getcwd(), "data\\x")  # temporary for visualising
@@ -92,7 +100,7 @@ if __name__ == "__main__":
         directory=os.path.join(os.getcwd(), "data\\Validation"),
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
         class_mode="categorical",  # more than 2 classes
-        classes=labels,
+        classes=classes,
         batch_size=BATCH_SIZE,
         shuffle=True
     )
