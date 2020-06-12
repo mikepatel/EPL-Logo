@@ -43,8 +43,8 @@ if __name__ == "__main__":
         ret, frame = capture.read()
 
         # preprocess image
-        image = cv2.resize(frame, (IMAGE_WIDTH, IMAGE_HEIGHT))
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
 
         image = np.array(image).astype(np.float32) / 255.0
         image = np.expand_dims(image, 0)
@@ -52,8 +52,6 @@ if __name__ == "__main__":
         # make prediction
         prediction = model.predict(image)
         print(int2club[int(np.argmax(prediction))])
-
-        quit()
 
         # display resulting frame
         cv2.imshow("", frame)
