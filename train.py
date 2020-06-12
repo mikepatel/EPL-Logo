@@ -11,8 +11,12 @@ File description:
 ################################################################################
 # Import
 import os
+import numpy as np
 from datetime import datetime
 import matplotlib.pyplot as plt
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 
 import tensorflow as tf
 
@@ -64,18 +68,18 @@ if __name__ == "__main__":
     classes, num_classes = get_labels()
     print(f'Number of classes (aka clubs): {num_classes}')
 
-    ## training
+    # training
     # build image generators
     train_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
-        rotation_range=30,  # degrees
-        width_shift_range=1.0,  # interval [-1.0, 1.0)
-        height_shift_range=1.0,  # interval [-1.0, 1.0)
-        brightness_range=[0.0, 1.0],  # 0 no brightness, 1 max brightness
-        shear_range=30,  # stretching in degrees
-        zoom_range=[0.5, 1.5],  # less than 1.0 zoom in, more than 1.0 zoom out
+        #rotation_range=30,  # degrees
+        #width_shift_range=1.0,  # interval [-1.0, 1.0)
+        #height_shift_range=1.0,  # interval [-1.0, 1.0)
+        #brightness_range=[0.0, 1.0],  # 0 no brightness, 1 max brightness
+        #shear_range=30,  # stretching in degrees
+        #zoom_range=[0.5, 1.5],  # less than 1.0 zoom in, more than 1.0 zoom out
         #channel_shift_range,
         horizontal_flip=True,
-        vertical_flip=True,
+        #vertical_flip=True,
         rescale=1./255  # [0, 255] --> [0, 1]
     )
 
@@ -83,7 +87,7 @@ if __name__ == "__main__":
     train_data_gen = train_image_generator.flow_from_directory(
         directory=os.path.join(os.getcwd(), "data\\Train"),
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
-        class_mode="categorical",  # more than 2 classes
+        class_mode="sparse",  # more than 2 classes
         classes=classes,
         batch_size=BATCH_SIZE,
         shuffle=True
@@ -92,7 +96,7 @@ if __name__ == "__main__":
 
     #next(train_data_gen)
 
-    ## validation
+    # validation
     val_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1./255
     )
@@ -100,13 +104,13 @@ if __name__ == "__main__":
     val_data_gen = val_image_generator.flow_from_directory(
         directory=os.path.join(os.getcwd(), "data\\Validation"),
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
-        class_mode="categorical",  # more than 2 classes
+        class_mode="sparse",  # more than 2 classes
         classes=classes,
         batch_size=BATCH_SIZE,
         shuffle=True
     )
 
-    ## test
+    # test
 
     # ----- MODEL ----- #
     m = build_cnn(num_classes=num_classes)
@@ -119,3 +123,33 @@ if __name__ == "__main__":
     m.summary()
 
     # ----- TRAINING ----- #
+    history = m.fit(
+        x=train_data_gen,
+        epochs=NUM_EPOCHS,
+        validation_data=val_data_gen
+    )
+
+    # plot accuracy
+    plt.plot(history.history["accuracy"], label="accuracy")
+    plt.plot(history.history["val_accuracy"], label="val_accuracy")
+    plt.title("Training Accuracy")
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy")
+    plt.ylim([0.0, 1.1])
+    plt.grid()
+    plt.legend(loc="lower right")
+    plt.savefig(os.path.join(output_dir, "Training Accuracy"))
+
+    # save model
+    m.save(os.path.join(output_dir, "saved_model"))
+
+    # ----- GENERATE ----- #
+    test_image_path = os.path.join(os.getcwd(), "data\\Test\\burnley-fc\\burnley-fc.jpg")
+    test_image = Image.open(test_image_path)
+    test_image = test_image.convert("RGB")
+
+    test_image = np.array(test_image).astype(np.float32) / 255.0
+    test_image = np.expand_dims(test_image, 0)
+
+    prediction = m.predict(test_image)
+    print(np.argmax(prediction))
