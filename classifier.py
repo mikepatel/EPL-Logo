@@ -43,10 +43,13 @@ if __name__ == "__main__":
         ret, frame = capture.read()
 
         # preprocess image
-        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        image = frame
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
+        Image.fromarray(image).save(os.path.join(os.getcwd(), "results\\t.png"))
 
-        image = np.array(image).astype(np.float32) / 255.0
+        #image = np.array(image).astype(np.float32) / 255.0
+        image = np.array(image).astype(np.float)
         image = np.expand_dims(image, 0)
 
         # make prediction

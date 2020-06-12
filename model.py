@@ -23,25 +23,15 @@ def build_cnn(num_classes):
     # ----- Stage 1 ----- #
     # Convolution
     model.add(tf.keras.layers.Conv2D(
-        filters=64,
+        filters=32,
         kernel_size=[3, 3],
         input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS),
         padding="same",
         activation=tf.keras.activations.relu
     ))
 
-    # Convolution
-    model.add(tf.keras.layers.Conv2D(
-        filters=64,
-        kernel_size=[3, 3],
-        padding="same",
-        activation=tf.keras.activations.relu
-    ))
-
     # Max Pooling
     model.add(tf.keras.layers.MaxPool2D(
-        pool_size=[2, 2],
-        strides=2
     ))
 
     # Dropout
@@ -52,15 +42,7 @@ def build_cnn(num_classes):
     # ----- Stage 2 ----- #
     # Convolution
     model.add(tf.keras.layers.Conv2D(
-        filters=128,
-        kernel_size=[3, 3],
-        padding="same",
-        activation=tf.keras.activations.relu
-    ))
-
-    # Convolution
-    model.add(tf.keras.layers.Conv2D(
-        filters=128,
+        filters=64,
         kernel_size=[3, 3],
         padding="same",
         activation=tf.keras.activations.relu
@@ -68,8 +50,6 @@ def build_cnn(num_classes):
 
     # Max Pooling
     model.add(tf.keras.layers.MaxPool2D(
-        pool_size=[2, 2],
-        strides=2
     ))
 
     # Dropout
@@ -80,15 +60,7 @@ def build_cnn(num_classes):
     # ----- Stage 3 ----- #
     # Convolution
     model.add(tf.keras.layers.Conv2D(
-        filters=256,
-        kernel_size=[3, 3],
-        padding="same",
-        activation=tf.keras.activations.relu
-    ))
-
-    # Convolution
-    model.add(tf.keras.layers.Conv2D(
-        filters=256,
+        filters=128,
         kernel_size=[3, 3],
         padding="same",
         activation=tf.keras.activations.relu
@@ -96,8 +68,6 @@ def build_cnn(num_classes):
 
     # Max Pooling
     model.add(tf.keras.layers.MaxPool2D(
-        pool_size=[2, 2],
-        strides=2
     ))
 
     # Dropout

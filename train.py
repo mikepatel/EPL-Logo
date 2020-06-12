@@ -75,12 +75,12 @@ if __name__ == "__main__":
     # training
     # build image generators
     image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
-        rotation_range=20,  # degrees
-        width_shift_range=1.0,  # interval [-1.0, 1.0)
-        height_shift_range=1.0,  # interval [-1.0, 1.0)
-        brightness_range=[0.0, 1.0],  # 0 no brightness, 1 max brightness
+        rotation_range=50,  # degrees
+        width_shift_range=0.9,  # interval [-1.0, 1.0)
+        height_shift_range=0.9,  # interval [-1.0, 1.0)
+        brightness_range=[0.2, 0.8],  # 0 no brightness, 1 max brightness
         shear_range=0.2,  # stretching in degrees
-        zoom_range=0.2,  # less than 1.0 zoom in, more than 1.0 zoom out
+        zoom_range=[0.5, 1.5],  # less than 1.0 zoom in, more than 1.0 zoom out
         #zca_whitening=True,
         #channel_shift_range,
         #horizontal_flip=True,
@@ -96,8 +96,8 @@ if __name__ == "__main__":
         class_mode="sparse",  # more than 2 classes
         classes=classes,
         batch_size=BATCH_SIZE,
-        shuffle=True,
-        save_to_dir=os.path.join(os.getcwd(), "data\\x")  # temporary for visualising
+        shuffle=True
+        #save_to_dir=os.path.join(os.getcwd(), "data\\x")  # temporary for visualising
     )
 
     #next(train_data_gen)
@@ -154,8 +154,7 @@ if __name__ == "__main__":
         "burnley-fc\\burnley-fc.jpg",
         "charlton-athletic-fc\\charlton-athletic-fc.jpg",
         "wolverhampton-wanderers-fc\\wolverhampton-wanderers-fc.jpg",
-        "crystal-palace-fc\\crystal-palace-fc.jpg",
-        "nottingham-forest-fc\\nottingham-forest-fc.jpg"
+        "crystal-palace-fc\\crystal-palace-fc.jpg"
     ]
 
     for ti in test_images:
