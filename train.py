@@ -81,6 +81,7 @@ if __name__ == "__main__":
         brightness_range=[0.2, 0.8],  # 0 no brightness, 1 max brightness
         shear_range=0.2,  # stretching in degrees
         zoom_range=[0.5, 1.5],  # less than 1.0 zoom in, more than 1.0 zoom out
+        channel_shift_range=125.0,
         #zca_whitening=True,
         #channel_shift_range,
         #horizontal_flip=True,
