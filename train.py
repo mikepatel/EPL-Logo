@@ -80,11 +80,11 @@ if __name__ == "__main__":
         height_shift_range=1.0,  # interval [-1.0, 1.0)
         brightness_range=[0.0, 1.0],  # 0 no brightness, 1 max brightness
         shear_range=30,  # stretching in degrees
-        zoom_range=[0.5, 1.5],  # less than 1.0 zoom in, more than 1.0 zoom out
-        zca_whitening=True,
+        #zoom_range=[0.5, 1.5],  # less than 1.0 zoom in, more than 1.0 zoom out
+        #zca_whitening=True,
         #channel_shift_range,
-        horizontal_flip=True,
-        vertical_flip=True,
+        #horizontal_flip=True,
+        #vertical_flip=True,
         rescale=1./255  # [0, 255] --> [0, 1]
     )
 
@@ -92,6 +92,7 @@ if __name__ == "__main__":
     train_data_gen = image_generator.flow_from_directory(
         directory=os.path.join(os.getcwd(), "data\\Train"),
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
+        color_mode="rgb",
         class_mode="sparse",  # more than 2 classes
         classes=classes,
         batch_size=BATCH_SIZE,
@@ -105,10 +106,11 @@ if __name__ == "__main__":
     val_data_gen = image_generator.flow_from_directory(
         directory=os.path.join(os.getcwd(), "data\\Validation"),
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
+        color_mode="rgb",
         class_mode="sparse",  # more than 2 classes
         classes=classes,
         batch_size=BATCH_SIZE,
-        shuffle=True
+        shuffle=False
     )
 
     # test
@@ -117,7 +119,9 @@ if __name__ == "__main__":
     m = build_cnn(num_classes=num_classes)
     m.compile(
         loss=tf.keras.losses.sparse_categorical_crossentropy,
-        optimizer=tf.keras.optimizers.Adam(),
+        optimizer=tf.keras.optimizers.Adam(
+            learning_rate=LEARNING_RATE
+        ),
         metrics=["accuracy"]
     )
 
@@ -142,7 +146,7 @@ if __name__ == "__main__":
     plt.savefig(os.path.join(output_dir, "Training Accuracy"))
 
     # save model
-    m.save(os.path.join(output_dir, "saved_model"))
+    m.save(os.path.join(os.getcwd(), "results\\saved_model"))
 
     # ----- GENERATE ----- #
     test_images = [
