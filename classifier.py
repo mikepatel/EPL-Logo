@@ -10,8 +10,19 @@ File description:
 """
 ################################################################################
 # Import
+import os
+import numpy as np
+from PIL import Image
 
+import tensorflow as tf
 
+from parameters import *
 
+################################################################################
+# Main
+if __name__ == "__main__":
+    # load model
+    model_filepath = os.path.join(os.getcwd(), "results\\saved_model")
+    model = tf.keras.models.load_model(model_filepath)
 
-# use webcam to get image, then classify
+    # use webcam to get image, then classify
