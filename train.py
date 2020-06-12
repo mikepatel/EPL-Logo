@@ -103,6 +103,8 @@ if __name__ == "__main__":
     # validation
     val_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
         rotation_range=45,  # degrees
+        brightness_range=[0.0, 1.0],
+        horizontal_flip=True,
         rescale=1./255
     )
 
