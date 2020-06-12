@@ -76,11 +76,11 @@ if __name__ == "__main__":
     # build image generators
     train_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
         rotation_range=90,  # degrees
-        #width_shift_range=1.0,  # interval [-1.0, 1.0)
-        #height_shift_range=1.0,  # interval [-1.0, 1.0)
+        width_shift_range=1.0,  # interval [-1.0, 1.0)
+        height_shift_range=1.0,  # interval [-1.0, 1.0)
         brightness_range=[0.0, 1.0],  # 0 no brightness, 1 max brightness
-        #shear_range=30,  # stretching in degrees
-        #zoom_range=[0.5, 1.5],  # less than 1.0 zoom in, more than 1.0 zoom out
+        shear_range=30,  # stretching in degrees
+        zoom_range=[0.5, 1.5],  # less than 1.0 zoom in, more than 1.0 zoom out
         #channel_shift_range,
         horizontal_flip=True,
         vertical_flip=True,
