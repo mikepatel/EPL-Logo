@@ -29,12 +29,16 @@ from model import build_cnn
 # return: labels, number of labels
 def get_labels():
     labels = []
-    for directories in os.listdir(os.path.join(os.getcwd(), "data\\Train")):
-        labels.append(directories)
+    int2club = {}
+    directories = os.listdir(os.path.join(os.getcwd(), "data\\Train"))
+    for i in range(len(directories)):
+        name = directories[i]
+        labels.append(name)
+        int2club[i] = name
 
     num_labels = len(labels)
 
-    return labels, num_labels
+    return labels, num_labels, int2club
 
 
 # plot images in a 1x5 grid
@@ -65,7 +69,7 @@ if __name__ == "__main__":
 
     # get class labels
     # number of classes = number of clubs
-    classes, num_classes = get_labels()
+    classes, num_classes, int2class = get_labels()
     print(f'Number of classes (aka clubs): {num_classes}')
 
     # training
@@ -152,4 +156,4 @@ if __name__ == "__main__":
     test_image = np.expand_dims(test_image, 0)
 
     prediction = m.predict(test_image)
-    print(np.argmax(prediction))
+    print(f'Prediction: {int2class[int(np.argmax(prediction))].title()}')
