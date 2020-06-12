@@ -44,6 +44,7 @@ if __name__ == "__main__":
 
         # preprocess image
         image = cv2.resize(frame, (IMAGE_WIDTH, IMAGE_HEIGHT))
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = np.array(image).astype(np.float32) / 255.0
         image = np.expand_dims(image, 0)
 
