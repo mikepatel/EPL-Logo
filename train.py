@@ -92,5 +92,14 @@ if __name__ == "__main__":
     )
 
     # save model
+    model.save(SAVE_DIR)
 
     # plot accuracy
+    plt.scatter(range(1, NUM_EPOCHS + 1), history.history["accuracy"], label="accuracy", s=300)
+    plt.scatter(range(1, NUM_EPOCHS + 1), history.history["val_accuracy"], label="val_accuracy", s=300)
+    plt.title("Training Accuracy")
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy")
+    plt.grid()
+    plt.legend(loc="lower right")
+    plt.savefig(os.path.join(os.getcwd(), "training"))
