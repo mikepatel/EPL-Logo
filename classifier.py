@@ -34,7 +34,7 @@ if __name__ == "__main__":
     model_filepath = os.path.join(os.getcwd(), "results\\saved_model")
     model = tf.keras.models.load_model(model_filepath)
 
-    image = cv2.imread(os.path.join(os.getcwd(), "data\\x\\manc_cropped.jpg"))
+    image = cv2.imread(os.path.join(os.getcwd(), "data\\x\\mancw.jpg"))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
     image = np.array(image).astype(np.float)
