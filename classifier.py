@@ -10,69 +10,94 @@ File description:
 """
 ################################################################################
 # Import
-import os
-import numpy as np
-from PIL import Image
-import cv2
-
-import tensorflow as tf
-
 from parameters import *
 
 
 ################################################################################
 # Main
 if __name__ == "__main__":
-    # create mapping of integers to club names
-    directories = os.listdir(os.path.join(os.getcwd(), "data\\Train"))
-    int2club = {}
+    # data labels
+    classes = []
+    int2class = {}
+    directories = os.listdir(TRAIN_DIR)
     for i in range(len(directories)):
         name = directories[i]
-        int2club[i] = name
+        classes.append(name)
+        int2class[i] = name
 
-    # load model
-    model_filepath = os.path.join(os.getcwd(), "results\\saved_model")
-    model = tf.keras.models.load_model(model_filepath)
+    num_classes = len(classes)
 
-    image = cv2.imread(os.path.join(os.getcwd(), "data\\x\\mancw.jpg"))
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
-    image = np.array(image).astype(np.float)
+    print(f'Classes: {classes}')
+    print(f'Number of classes: {num_classes}')
+
+    # load trained model
+    model = tf.keras.models.load_model(SAVE_DIR)
+    model.summary()
+
+    """
+    t = os.path.join(TRAIN_DIR, "liverpool-fc\\liverpool-fc.jpg")
+    #t = os.path.join(os.getcwd(), "cv.jpg")
+    
+    image = Image.open(t)
+    image = image.convert("RGB")
+    image = image.resize((IMAGE_WIDTH, IMAGE_HEIGHT))
+    image = np.array(image)
+    image = image.reshape(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS)
+    image = image / 255.0
     image = np.expand_dims(image, 0)
-    prediction = model.predict(image)
-    print(int2club[int(np.argmax(prediction))])
+
+    x = model.predict(image)
+    x = int(np.argmax(x))
+    x = int2class[x]
+    print(x)
 
     quit()
+    """
 
-
-    # use webcam to get image, then classify
-    # open webcam and capture video
-    capture = cv2.VideoCapture(0)  # 0 = first camera
-
+    # open webcam
+    capture = cv2.VideoCapture(0)
     while True:
         # capture frame by frame
         ret, frame = capture.read()
 
         # preprocess image
         image = frame
-        #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-        image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
-        Image.fromarray(image).save(os.path.join(os.getcwd(), "results\\t.png"))
 
-        image = np.array(image).astype(np.float32) / 255.0
-        #image = np.array(image).astype(np.float32)
-        #image = cv2.normalize(image, None)
+        # crop webcam image
+        y, x, channels = image.shape
+        left_x = int(x*0.25)
+        right_x = int(x*0.75)
+        top_y = int(y*0.25)
+        bottom_y = int(y*0.75)
+        image = image[top_y:bottom_y, left_x:right_x]
+
+        cv2.imwrite(os.path.join(os.getcwd(), "cv.jpg"), image)
+
+        # convert to RGB
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        # resize image
+        image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
+
+        mod_image = image
+
+        # array and rescale
+        image = np.array(image)
+        image = image / 255.0
         image = np.expand_dims(image, 0)
 
         # make prediction
         prediction = model.predict(image)
-        print(int2club[int(np.argmax(prediction))])
+        prediction = int(np.argmax(prediction))
+        prediction = int2class[prediction]
+        print(prediction)
 
-        # display resulting frame
-        cv2.imshow("", frame)
+        # display frame
+        #cv2.imshow("", frame)
+        cv2.imshow("", mod_image)
 
-        if cv2.waitKey(1) == 27:  # continuous stream, escape key
+        # continuous stream, escape key
+        if cv2.waitKey(1) == 27:
             break
 
     # release capture
