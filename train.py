@@ -57,7 +57,7 @@ if __name__ == "__main__":
     )
 
     # validation generator
-    val_generator = image_generator.flow_from_directory(
+    val_data_gen = image_generator.flow_from_directory(
         directory=VAL_DIR,
         target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
         class_mode="categorical",
@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     # loss function, optimizer
     model.compile(
-        loss=tf.keras.losses.sparse_categorical_crossentropy,
+        loss=tf.keras.losses.categorical_crossentropy,
         optimizer=tf.keras.optimizers.Adam(),
         metrics=["accuracy"]
     )
@@ -83,6 +83,13 @@ if __name__ == "__main__":
 
     # ----- TRAIN ----- #
     # fit model
+    history = model.fit(
+        x=train_data_gen,
+        epochs=NUM_EPOCHS,
+        steps_per_epoch=num_classes // BATCH_SIZE,  # 1 image per class
+        validation_data=val_data_gen,
+        validation_steps=num_classes // BATCH_SIZE  # 1 image per class
+    )
 
     # save model
 
