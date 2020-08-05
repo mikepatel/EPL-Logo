@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+import cv2
 
 import tensorflow as tf
 
@@ -32,7 +33,7 @@ IMAGE_WIDTH = 160
 IMAGE_HEIGHT = 160
 IMAGE_CHANNELS = 3
 
-NUM_EPOCHS = 1000
+NUM_EPOCHS = 450
 BATCH_SIZE = 64
 LEARNING_RATE = 0.0001
 
