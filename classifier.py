@@ -71,7 +71,8 @@ if __name__ == "__main__":
         bottom_y = int(y*0.75)
         image = image[top_y:bottom_y, left_x:right_x]
 
-        cv2.imwrite(os.path.join(os.getcwd(), "cv.jpg"), image)
+        predicted_image_filepath = os.path.join(os.getcwd(), "predicted.jpg")
+        cv2.imwrite(predicted_image_filepath, image)
 
         # convert to RGB
         #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -95,6 +96,13 @@ if __name__ == "__main__":
         # display frame
         #cv2.imshow("", frame)
         cv2.imshow("", mod_image)
+
+        # label webcam image with predicted label
+        webcam_frame_image = Image.open(predicted_image_filepath)
+        draw = ImageDraw.Draw(webcam_frame_image)
+        font = ImageFont.truetype("arial.ttf", 40)
+        draw.text((0, 0), prediction, font=font)
+        webcam_frame_image.save(predicted_image_filepath)
 
         # continuous stream, escape key
         if cv2.waitKey(1) == 27:
