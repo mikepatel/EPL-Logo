@@ -2,6 +2,7 @@
 ## Overview
 * CNN model to classify crests of English Premier League (EPL) clubs
 * Using TensorFlow 2.0
+* Using VGG16 model
 
 ## Data
 * The data was scraped from [The Football Crest Index](https://thefootballcrestindex.com/blogs/premier-league-clubs) using Selenium
@@ -15,7 +16,13 @@
 
 ## Instructions
 #### Train model
+```
+python train.py
+```
 
 #### Run trained model
+```
+python classify.py
+```
 
 ## Results
