@@ -70,7 +70,32 @@ if __name__ == "__main__":
 
     # ----- MODEL ----- #
     # build model
-    model = build_cnn(num_classes=num_classes)
+    #model = build_cnn(num_classes=num_classes)
+
+    vgg16 = tf.keras.applications.vgg16.VGG16(
+        input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS),
+        include_top=False
+    )
+    vgg16.trainable = False
+
+    model = tf.keras.Sequential()
+    model.add(vgg16)
+    model.add(tf.keras.layers.Flatten())
+
+    model.add(tf.keras.layers.Dense(
+        units=256,
+        activation=tf.keras.activations.relu
+    ))
+
+    model.add(tf.keras.layers.Dense(
+        units=128,
+        activation=tf.keras.activations.relu
+    ))
+
+    model.add(tf.keras.layers.Dense(
+        units=num_classes,
+        activation=tf.keras.activations.softmax
+    ))
 
     # loss function, optimizer
     model.compile(
