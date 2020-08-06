@@ -74,7 +74,7 @@ if __name__ == "__main__":
         cv2.imwrite(os.path.join(os.getcwd(), "cv.jpg"), image)
 
         # convert to RGB
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         # resize image
         image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
