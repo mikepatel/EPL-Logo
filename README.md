@@ -26,3 +26,12 @@ python classify.py
 ```
 
 ## Results
+### 45 epochs of training
+![45 epochs](https://github.com/mikepatel/EPL-Logo/blob/master/training.png)
+
+### Preliminary predictions
+![bournemouth](https://github.com/mikepatel/EPL-Logo/blob/master/results/predicted_bournemouth.jpg)
+![chelsea](https://github.com/mikepatel/EPL-Logo/blob/master/results/predicted_chelsea.jpg)
+![crystal palace](https://github.com/mikepatel/EPL-Logo/blob/master/results/predicted_cp.jpg)
+![man city](https://github.com/mikepatel/EPL-Logo/blob/master/results/predicted_mancity.jpg)
+![watford](https://github.com/mikepatel/EPL-Logo/blob/master/results/predicted_watford.jpg)
