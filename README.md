@@ -9,7 +9,7 @@
 
 ## File descriptions
 * [classifier.py](https://github.com/mikepatel/EPL-Logo/blob/master/classifier.py) - For running trained model
-* [get_data.py](https://github.com/mikepatel/EPL-Logo/blob/master/data/get_data.py) - For gathering data
+* [get_data.py](https://github.com/mikepatel/EPL-Logo/blob/master/data/get_data.py) - For gathering data to build datasets
 * [model.py](https://github.com/mikepatel/EPL-Logo/blob/master/model.py) - For model definitions
 * [parameters.py](https://github.com/mikepatel/EPL-Logo/blob/master/parameters.py) - For model and training parameters
 * [train.py](https://github.com/mikepatel/EPL-Logo/blob/master/train.py) - For data preprocessing and model training
